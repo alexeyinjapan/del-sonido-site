@@ -16,12 +16,23 @@
 <div id="root"></div>
 
 <script>
-    // Создаем заглушки для переменных, которые ищет код Netlify
+    // Создаем максимально полную имитацию среды Netlify
     window.$_TSR = {
+        buffer: [], // Исправляет ошибку с forEach
         data: [],
-        matchesId: { get: () => ({ length: 0 }) }
+        matchesId: { 
+            get: () => ({ length: 0 }) 
+        }
     };
-    window.process = { env: { NODE_ENV: 'production' } };
+    
+    // Перехватываем попытки вызвать функции из буфера
+    window.$_TSR.buffer.forEach = function(callback) {
+        console.log("Имитация выполнения буфера");
+    };
+
+    window.process = { 
+        env: { NODE_ENV: 'production' } 
+    };
 </script>
     
     <script type="module" src="./assets/_productid-cmf-xyec.js"></script>
